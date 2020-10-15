@@ -87,11 +87,16 @@ void NCursesDisplay::Display(System& system, int n) {
   noecho();       // do not print input values
   cbreak();       // terminate ncurses on ctrl + c
   start_color();  // enable color
+  nodelay(stdscr, true);
+  int ch;
 
   int x_max{getmaxx(stdscr)};
   WINDOW* system_window = newwin(9, x_max - 1, 0, 0);
   WINDOW* process_window =
-      newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0);
+      newwin(3 + n, x_max - 1, system_window->_maxy + 1, 0); 
+
+  WINDOW* help_window = newwin( 2, x_max - 1, 
+                   system_window->_maxy + process_window->_maxy + 1, 0 );
 
   while (1) {
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
@@ -100,8 +105,13 @@ void NCursesDisplay::Display(System& system, int n) {
     box(process_window, 0, 0);
     DisplaySystem(system, system_window);
     DisplayProcesses(system.Processes(), process_window, n);
+    mvwprintw( help_window, 1, 1, "Press 'q' to Quit, 'm' to sort by RAM, 'c' to sort by CPU");
     wrefresh(system_window);
     wrefresh(process_window);
+    wrefresh(help_window);
+    switch ( ch = getch() ) {
+      case 'q' : endwin();
+    }
     refresh();
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
