@@ -17,6 +17,6 @@ string Format::ElapsedTime(long seconds) {
     h = ( seconds / 60 / 60 ) % 24;
     m = ( seconds / 60  ) % 60;
     s = seconds % 60;
-    return std::to_string( d ) + " days " + std::to_string( h ) +
+    return std::to_string( d ) + "d " + std::to_string( h ) +
              ":" + std::to_string( m ) + ":" + std::to_string(s);
 }
