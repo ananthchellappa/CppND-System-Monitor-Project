@@ -14,7 +14,7 @@ string Format::ElapsedTime(long seconds) {
     int h;
     int m;
     int s;
-    char buf[] = "     ";
+    char buf[] = "          ";    // did see some seg faults.. make intentionally larger
     d = seconds / 60 / 60 / 24;
     h = ( seconds / 60 / 60 ) % 24;
     m = ( seconds / 60  ) % 60;
