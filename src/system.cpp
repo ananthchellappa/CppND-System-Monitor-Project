@@ -22,6 +22,7 @@ Processor& System::Cpu() { return cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() { 
     vector<int> pids = LinuxParser::Pids();    // debug the new approach
+    // Process::sort_crit_ = sort_crit_;
     processes_ = {};
     for (auto i : pids ){
         Process proc(i);    // sets pid_ to i
@@ -30,6 +31,7 @@ vector<Process>& System::Processes() {
     }
     sort( processes_.begin(), processes_.end() );
     std::reverse( processes_.begin(), processes_.end() );
+    processes_[0].SetSortCrit( sort_crit_ );
     return processes_;
 }
 

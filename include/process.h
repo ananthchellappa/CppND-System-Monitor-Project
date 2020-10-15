@@ -13,15 +13,15 @@ class Process {
   std::string User();                      // TODO: See src/process.cpp
   std::string Command();                   // TODO: See src/process.cpp
   float CpuUtilization() const;                  // AC added const
-  std::string Ram();                       // TODO: See src/process.cpp
+  std::string Ram() const;                       // AC added const
   long int UpTime();                       // TODO: See src/process.cpp
   bool operator<(Process const& a) const;  // TODO: See src/process.cpp
+  void SetSortCrit( bool Crit ) { sort_crit_ = Crit;}
 
   // TODO: Declare any necessary private members
  private:
     int pid_;
-    std::string user_;
-    std::string cmd_;
+    inline static bool sort_crit_ = true;   // AC add; will by used by the < operator true : use CPU false : use RAM
 };
 
 #endif

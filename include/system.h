@@ -17,11 +17,13 @@ class System {
   int RunningProcesses();             // TODO: See src/system.cpp
   std::string Kernel();               // TODO: See src/system.cpp
   std::string OperatingSystem();      // TODO: See src/system.cpp
+  void SetSortCrit( bool Crit ){ sort_crit_ = Crit;}
 
   // TODO: Define any necessary private members
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {}; // would be nice to tell us what you want here.. 
+  bool sort_crit_ = false; // true : by CPU usage, false : by RAM
 };
 
 #endif
