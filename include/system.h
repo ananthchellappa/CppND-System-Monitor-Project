@@ -23,7 +23,7 @@ class System {
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {}; // would be nice to tell us what you want here.. 
-  bool sort_crit_ = false; // true : by CPU usage, false : by RAM
+  bool sort_crit_ = true; // true : by CPU usage, false : by RAM
 };
 
 #endif

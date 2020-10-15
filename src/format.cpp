@@ -1,4 +1,5 @@
 #include <string>
+#include <stdio.h>
 
 #include "format.h"
 
@@ -13,10 +14,11 @@ string Format::ElapsedTime(long seconds) {
     int h;
     int m;
     int s;
+    char buf[] = "     ";
     d = seconds / 60 / 60 / 24;
     h = ( seconds / 60 / 60 ) % 24;
     m = ( seconds / 60  ) % 60;
     s = seconds % 60;
-    return std::to_string( d ) + "d " + std::to_string( h ) +
-             ":" + std::to_string( m ) + ":" + std::to_string(s);
+    sprintf( buf, "%02d:%02d", m, s );  // feels like segmentation fault waiting to happen..
+    return std::to_string( d ) + "d " + std::to_string( h ) +  ":" +  string( buf ) ;
 }

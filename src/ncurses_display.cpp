@@ -88,6 +88,7 @@ void NCursesDisplay::Display(System& system, int n) {
   cbreak();       // terminate ncurses on ctrl + c
   start_color();  // enable color
   nodelay(stdscr, true);
+  // keypad(stdscr, true );  // from http://www.cplusplus.com/forum/beginner/248599/
   int ch;
 
   int x_max{getmaxx(stdscr)};
@@ -98,20 +99,21 @@ void NCursesDisplay::Display(System& system, int n) {
   WINDOW* help_window = newwin( 2, x_max - 1, 
                    system_window->_maxy + process_window->_maxy + 1, 0 );
 
-  while (1) {
+  for ( ch = getch(); ch != 'q'; ch=getch()) {
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
     box(system_window, 0, 0);
     box(process_window, 0, 0);
+    switch (ch) {
+      case 'm' : system.SetSortCrit( false ); break;
+      case 'c' : system.SetSortCrit( true  ); break;
+    }
     DisplaySystem(system, system_window);
     DisplayProcesses(system.Processes(), process_window, n);
     mvwprintw( help_window, 1, 1, "Press 'q' to Quit, 'm' to sort by RAM, 'c' to sort by CPU");
     wrefresh(system_window);
     wrefresh(process_window);
     wrefresh(help_window);
-    switch ( ch = getch() ) {
-      case 'q' : endwin();
-    }
     refresh();
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
