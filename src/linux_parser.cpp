@@ -212,7 +212,9 @@ string LinuxParser::Command(int pid ) {
   std::ifstream filestream( kProcDirectory + std::to_string(pid) + kCmdlineFilename );
   if ( filestream.is_open() ) {
     std::getline( filestream , line );
-    return line;
+    // if (!line.empty() && line.back() == '\n')  // no clue what that last char is, but it looks like \n:)
+    line.pop_back();
+    return " " + line + "                                                                               ";
   }
   return "Error opening cmdline";
 }

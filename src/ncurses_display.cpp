@@ -99,6 +99,8 @@ void NCursesDisplay::Display(System& system, int n) {
   WINDOW* help_window = newwin( 2, x_max - 1, 
                    system_window->_maxy + process_window->_maxy + 1, 0 );
 
+  int count = 0;  // used to do the delay for sys info update
+  int old_ch; // if something's changed, then update display immediately!
   for ( ch = getch(); ch != 'q'; ch=getch()) {
     init_pair(1, COLOR_BLUE, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_BLACK);
@@ -108,14 +110,23 @@ void NCursesDisplay::Display(System& system, int n) {
       case 'm' : system.SetSortCrit( false ); break;
       case 'c' : system.SetSortCrit( true  ); break;
     }
-    DisplaySystem(system, system_window);
-    DisplayProcesses(system.Processes(), process_window, n);
-    mvwprintw( help_window, 1, 1, "Press 'q' to Quit, 'm' to sort by RAM, 'c' to sort by CPU");
-    wrefresh(system_window);
-    wrefresh(process_window);
-    wrefresh(help_window);
-    refresh();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(40));  // for fast response
+    if ( count > 25 || old_ch != ch ) {
+      count = 0;
+      DisplaySystem(system, system_window);
+      DisplayProcesses(system.Processes(), process_window, n);
+      mvwprintw( help_window, 1, 1, "Press 'q' to Quit, 'm' to sort by RAM, 'c' to sort by CPU");
+      wrefresh(system_window);
+      wrefresh(process_window);
+      wrefresh(help_window);
+      refresh();
+    } else
+    {
+      count++;
+      old_ch = ch;
+    }
+    
   }
   endwin();
 }
