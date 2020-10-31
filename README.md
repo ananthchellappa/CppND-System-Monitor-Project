@@ -1,8 +1,11 @@
 # CppND-System-Monitor
 
-Starter code for System Monitor Project in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
-
-Follow along with the classroom lesson to complete the project!
+Finished code for the Udacity C++ NanoDegree System Monitor (OOP) Project. 
+Features : 
+Use of regex to refute the claim that parsing files in C++ is tricky (it's not).
+Use of std::filesystem with regex to get numerically named files.
+Interactive - use 'q' to quit and 'm' and 'c' to sort by RAM usage and (default) CPU usage with sub 50 ms latency response to keypress.
+Display message regarding q/m/c functionality.
 
 ![System Monitor](images/sys_mon.gif)
 
